@@ -1,0 +1,14 @@
+<resources>
+
+    <string name="app_name">StarWarsApi</string>
+
+    <string name="label_root">Star Wars API</string>
+
+    <string name="label_films">Films</string>
+    <string name="label_people">People</string>
+    <string name="label_planets">Planets</string>
+    <string name="label_species">Species</string>
+    <string name="label_starships">Starships</string>
+    <string name="label_vehicles">Vehicles</string>
+
+</resources>
