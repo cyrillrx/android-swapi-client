@@ -1,10 +1,9 @@
 package com.cyrillrx.starwarsapi.planet
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * @author Cyril Leroux
  *         Created on 08/04/2018.
  */
-class PlanetActivity: AppCompatActivity() {
-}
+class PlanetActivity : AppCompatActivity()

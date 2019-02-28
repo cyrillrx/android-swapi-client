@@ -2,7 +2,6 @@ package com.cyrillrx.starwarsapi.starship
 
 import com.cyrillrx.starwarsapi.ListActivity
 import com.cyrillrx.starwarsapi.SwApp
-import com.cyrillrx.swapi.model.Planet
 import com.cyrillrx.swapi.model.ResultList
 import com.cyrillrx.swapi.model.Starship
 import retrofit2.Callback

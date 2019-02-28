@@ -2,10 +2,10 @@ package com.cyrillrx.starwarsapi
 
 import android.app.Activity
 import android.content.ContextWrapper
-import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import com.cyrillrx.logger.Logger
 
 private const val TAG = "ViewsKt - Views.kt"

@@ -1,10 +1,10 @@
 package com.cyrillrx.starwarsapi
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.cyrillrx.logger.Logger
 import com.cyrillrx.starwarsapi.adapter.BaseAdapter
 import com.cyrillrx.starwarsapi.film.FilmListActivity
@@ -17,7 +17,6 @@ import com.cyrillrx.swapi.model.Root
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 /**
  * @author Cyril Leroux

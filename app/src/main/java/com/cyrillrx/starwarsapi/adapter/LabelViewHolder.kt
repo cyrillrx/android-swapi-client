@@ -1,10 +1,10 @@
 package com.cyrillrx.starwarsapi.adapter
 
 import android.content.Intent
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.cyrillrx.starwarsapi.R
 import com.cyrillrx.starwarsapi.RootItem
 import com.cyrillrx.starwarsapi.film.FilmActivity
@@ -25,8 +25,8 @@ class LabelViewHolder(parent: ViewGroup)
 
     fun bind(item: Any?) {
         when (item) {
-            null -> bind(item, item, {})
-            is String -> bind(item, "", {})
+            null -> bind(item, item) {}
+            is String -> bind(item, "") {}
             is RootItem -> bindRootItem(item)
             is Film -> bindFilm(item)
             is Person -> bindPerson(item)
@@ -61,37 +61,44 @@ class LabelViewHolder(parent: ViewGroup)
     }
 
     private fun bindRootItem(item: RootItem) {
-        bind(item.label, item.url,
-                { v -> startActivity(item.url, v, item.activityClass) })
+        bind(item.label, item.url) { v ->
+            startActivity(item.url, v, item.activityClass)
+        }
     }
 
     private fun bindFilm(film: Film) {
-        bind(film.title, film.release_date.toString(),
-                { v -> startActivity(film, v, FilmActivity::class.java) })
+        bind(film.title, film.release_date.toString()) { v ->
+            startActivity(film, v, FilmActivity::class.java)
+        }
     }
 
     private fun bindPerson(person: Person) {
-        bind(person.name, person.homeworld,
-                { v -> startActivity(person, v, FilmActivity::class.java) })
+        bind(person.name, person.homeworld) { v ->
+            startActivity(person, v, FilmActivity::class.java)
+        }
     }
 
     private fun bindPlanet(planet: Planet) {
-        bind(planet.name, planet.terrain,
-                { v -> startActivity(planet, v, PlanetActivity::class.java) })
+        bind(planet.name, planet.terrain) { v ->
+            startActivity(planet, v, PlanetActivity::class.java)
+        }
     }
 
     private fun bindSpecies(species: Species) {
-        bind(species.name, species.homeworld,
-                { v -> startActivity(species, v, FilmActivity::class.java) })
+        bind(species.name, species.homeworld) { v ->
+            startActivity(species, v, FilmActivity::class.java)
+        }
     }
 
     private fun bindStarship(starship: Starship) {
-        bind(starship.name, starship.model,
-                { v -> startActivity(starship, v, FilmActivity::class.java) })
+        bind(starship.name, starship.model) { v ->
+            startActivity(starship, v, FilmActivity::class.java)
+        }
     }
 
     private fun bindVehicle(vehicle: Vehicle) {
-        bind(vehicle.name, vehicle.model,
-                { v -> startActivity(vehicle, v, FilmActivity::class.java) })
+        bind(vehicle.name, vehicle.model) { v ->
+            startActivity(vehicle, v, FilmActivity::class.java)
+        }
     }
 }
