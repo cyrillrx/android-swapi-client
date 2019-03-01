@@ -2,6 +2,7 @@ package com.cyrillrx.starwarsapi.common
 
 import android.content.Intent
 import android.view.View
+import com.cyrillrx.starwarsapi.IntentKey
 import com.cyrillrx.starwarsapi.RootItem
 import com.cyrillrx.starwarsapi.film.FilmActivity
 import com.cyrillrx.starwarsapi.planet.PlanetActivity
@@ -11,6 +12,10 @@ import com.cyrillrx.templates.model.Item
 import com.cyrillrx.templates.model.ItemFactory
 import com.cyrillrx.utils.serialize
 
+/**
+ * @author Cyril Leroux
+ *         Created on 01/03/2019.
+ */
 class SwItemFactory : ItemFactory {
 
     override fun createHeader(input: Any?): Header = when (input) {
@@ -67,7 +72,7 @@ class SwItemFactory : ItemFactory {
     private fun startActivity(entity: Entity, view: View, clazz: Class<*>?) {
         view.context?.let { context ->
             val intent = Intent(context, clazz)
-            intent.putExtra("Entity", entity.serialize())
+            intent.putExtra(IntentKey.ENTITY, entity.serialize())
             context.startActivity(intent)
         }
     }
@@ -75,7 +80,7 @@ class SwItemFactory : ItemFactory {
     private fun startActivity(url: String, view: View, clazz: Class<*>?) {
         view.context?.let { context ->
             val intent = Intent(context, clazz)
-            intent.putExtra("url", url)
+            intent.putExtra(IntentKey.URL, url)
             context.startActivity(intent)
         }
     }
