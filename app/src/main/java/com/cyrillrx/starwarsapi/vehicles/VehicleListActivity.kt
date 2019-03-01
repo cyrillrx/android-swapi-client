@@ -1,20 +1,20 @@
 package com.cyrillrx.starwarsapi.vehicles
 
-import com.cyrillrx.starwarsapi.ListActivity
 import com.cyrillrx.starwarsapi.SwApp
+import com.cyrillrx.starwarsapi.common.BaseListActivity
 import com.cyrillrx.swapi.model.ResultList
 import com.cyrillrx.swapi.model.Vehicle
-import retrofit2.Callback
+import retrofit2.Call
 
 /**
  * @author Cyril Leroux
  *         Created on 07/04/2018.
  */
-class VehicleListActivity : ListActivity<Vehicle>() {
+class VehicleListActivity : BaseListActivity<Vehicle>() {
 
-    override fun sendRequest(callback: Callback<ResultList<Vehicle>>) =
-            SwApp.swApi.getVehicles().enqueue(callback)
+    override fun getApiCall(): Call<ResultList<Vehicle>> =
+            SwApp.swApi.getVehicles()
 
-    override fun loadNextPage(url: String, callback: Callback<ResultList<Vehicle>>) =
-            SwApp.swApi.getVehicles(url).enqueue(callback)
+    override fun getApiCall(url: String): Call<ResultList<Vehicle>> =
+            SwApp.swApi.getVehicles(url)
 }

@@ -1,20 +1,20 @@
 package com.cyrillrx.starwarsapi.species
 
-import com.cyrillrx.starwarsapi.ListActivity
 import com.cyrillrx.starwarsapi.SwApp
+import com.cyrillrx.starwarsapi.common.BaseListActivity
 import com.cyrillrx.swapi.model.ResultList
 import com.cyrillrx.swapi.model.Species
-import retrofit2.Callback
+import retrofit2.Call
 
 /**
  * @author Cyril Leroux
  *         Created on 07/04/2018.
  */
-class SpeciesListActivity : ListActivity<Species>() {
+class SpeciesListActivity : BaseListActivity<Species>() {
 
-    override fun sendRequest(callback: Callback<ResultList<Species>>) =
-            SwApp.swApi.getSpecies().enqueue(callback)
+    override fun getApiCall(): Call<ResultList<Species>> =
+            SwApp.swApi.getSpecies()
 
-    override fun loadNextPage(url: String, callback: Callback<ResultList<Species>>) =
-            SwApp.swApi.getSpecies(url).enqueue(callback)
+    override fun getApiCall(url: String): Call<ResultList<Species>> =
+            SwApp.swApi.getSpecies(url)
 }

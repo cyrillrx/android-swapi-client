@@ -22,8 +22,9 @@ class SwApp : Application() {
         Stetho.initializeWithDefaults(this)
 
         Logger.initialize()
-        val logSeverity = if (BuildConfig.DEBUG) Severity.VERBOSE else Severity.FATAL
-        Logger.addChild(LogCat(logSeverity))
+        if (BuildConfig.DEBUG) {
+            Logger.addChild(LogCat(Severity.VERBOSE))
+        }
 
         val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggerInterceptor())

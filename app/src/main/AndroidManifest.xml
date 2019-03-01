@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<manifest package="com.cyrillrx.starwarsapi"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cyrillrx.starwarsapi">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,7 +10,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -23,28 +22,34 @@
         </activity>
 
         <activity android:name=".film.FilmActivity" />
-        <activity android:name=".film.FilmListActivity"
-            android:label="@string/label_films"/>
+        <activity
+            android:name=".film.FilmListActivity"
+            android:label="@string/label_films" />
 
         <activity android:name=".people.PersonActivity" />
-        <activity android:name=".people.PersonListActivity"
-            android:label="@string/label_people"/>
+        <activity
+            android:name=".people.PersonListActivity"
+            android:label="@string/label_people" />
 
         <activity android:name=".planet.PlanetActivity" />
-        <activity android:name=".planet.PlanetListActivity"
-            android:label="@string/label_planets"/>
+        <activity
+            android:name=".planet.PlanetListActivity"
+            android:label="@string/label_planets" />
 
         <activity android:name=".species.SpeciesActivity" />
-        <activity android:name=".species.SpeciesListActivity"
-            android:label="@string/label_species"/>
+        <activity
+            android:name=".species.SpeciesListActivity"
+            android:label="@string/label_species" />
 
         <activity android:name=".starship.StarshipActivity" />
-        <activity android:name=".starship.StarshipListActivity"
-            android:label="@string/label_starships"/>
+        <activity
+            android:name=".starship.StarshipListActivity"
+            android:label="@string/label_starships" />
 
         <activity android:name=".vehicles.VehicleActivity" />
-        <activity android:name=".vehicles.VehicleListActivity"
-            android:label="@string/label_vehicles"/>
+        <activity
+            android:name=".vehicles.VehicleListActivity"
+            android:label="@string/label_vehicles" />
     </application>
 
 </manifest>

@@ -1,20 +1,20 @@
 package com.cyrillrx.starwarsapi.planet
 
-import com.cyrillrx.starwarsapi.ListActivity
 import com.cyrillrx.starwarsapi.SwApp
+import com.cyrillrx.starwarsapi.common.BaseListActivity
 import com.cyrillrx.swapi.model.Planet
 import com.cyrillrx.swapi.model.ResultList
-import retrofit2.Callback
+import retrofit2.Call
 
 /**
  * @author Cyril Leroux
  *         Created on 07/04/2018.
  */
-class PlanetListActivity : ListActivity<Planet>() {
+class PlanetListActivity : BaseListActivity<Planet>() {
 
-    override fun sendRequest(callback: Callback<ResultList<Planet>>) =
-            SwApp.swApi.getPlanets().enqueue(callback)
+    override fun getApiCall(): Call<ResultList<Planet>> =
+            SwApp.swApi.getPlanets()
 
-    override fun loadNextPage(url: String, callback: Callback<ResultList<Planet>>) =
-            SwApp.swApi.getPlanets(url).enqueue(callback)
+    override fun getApiCall(url: String): Call<ResultList<Planet>> =
+            SwApp.swApi.getPlanets(url)
 }

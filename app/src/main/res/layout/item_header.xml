@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/star_jedi"
+    android:gravity="center"
+    android:padding="@dimen/ui_templates_spacing_header"
+    android:textSize="@dimen/ui_templates_text_header" />
