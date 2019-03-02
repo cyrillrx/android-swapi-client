@@ -10,7 +10,7 @@ import com.cyrillrx.swapi.model.*
 import com.cyrillrx.templates.model.Header
 import com.cyrillrx.templates.model.Item
 import com.cyrillrx.templates.model.ItemFactory
-import com.cyrillrx.utils.serialize
+import com.cyrillrx.utils.prettyPrint
 
 /**
  * @author Cyril Leroux
@@ -72,7 +72,7 @@ class SwItemFactory : ItemFactory {
     private fun startActivity(entity: Entity, view: View, clazz: Class<*>?) {
         view.context?.let { context ->
             val intent = Intent(context, clazz)
-            intent.putExtra(IntentKey.ENTITY, entity.serialize())
+            intent.putExtra(IntentKey.ENTITY, entity.prettyPrint())
             context.startActivity(intent)
         }
     }
