@@ -7,23 +7,23 @@ import com.cyrillrx.starwarsapi.RootItem
 import com.cyrillrx.starwarsapi.film.FilmActivity
 import com.cyrillrx.starwarsapi.planet.PlanetActivity
 import com.cyrillrx.swapi.model.*
+import com.cyrillrx.templates.model.Converter
 import com.cyrillrx.templates.model.Header
 import com.cyrillrx.templates.model.Item
-import com.cyrillrx.templates.model.ItemFactory
 import com.cyrillrx.utils.prettyPrint
 
 /**
  * @author Cyril Leroux
  *         Created on 01/03/2019.
  */
-class SwItemFactory : ItemFactory {
+class ItemConverter : Converter {
 
-    override fun createHeader(input: Any?): Header = when (input) {
+    override fun toHeader(input: Any?): Header = when (input) {
         is String -> Header(input)
         else -> Header("???")
     }
 
-    override fun createItem(input: Any?): Item = when (input) {
+    override fun toItem(input: Any?): Item = when (input) {
         is RootItem -> bindRootItem(input)
         is Film -> bindFilm(input)
         is Person -> bindPerson(input)

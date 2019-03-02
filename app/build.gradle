@@ -39,7 +39,7 @@ dependencies {
 
     implementation 'com.cyrillrx.android:core:0.5.1'
     implementation 'com.cyrillrx.android:logger-logcat:1.6.1'
-    implementation 'com.cyrillrx.android:ui-templates:0.1.0'
+    implementation 'com.cyrillrx.android:ui-templates:0.2.0'
 
     // Network
 

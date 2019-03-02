@@ -16,7 +16,7 @@ abstract class BaseListActivity<T : Any> : ListActivity() {
 
     override val header: String? by lazy { title?.toString() }
 
-    override val adapter: BaseAdapter = BaseAdapter(SwItemFactory())
+    override val adapter: BaseAdapter = BaseAdapter(ItemConverter())
 
     private val callback = object : Callback<ResultList<T>> {
 

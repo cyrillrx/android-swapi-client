@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cyrillrx.logger.Logger
-import com.cyrillrx.starwarsapi.common.SwItemFactory
+import com.cyrillrx.starwarsapi.common.ItemConverter
 import com.cyrillrx.starwarsapi.film.FilmListActivity
 import com.cyrillrx.starwarsapi.people.PersonListActivity
 import com.cyrillrx.starwarsapi.planet.PlanetListActivity
@@ -26,7 +26,7 @@ class RootActivity : ListActivity() {
 
     override val header: String? by lazy { title?.toString() }
 
-    override val adapter: BaseAdapter = BaseAdapter(SwItemFactory())
+    override val adapter: BaseAdapter = BaseAdapter(ItemConverter())
 
     override fun addItemDecoration(recyclerView: RecyclerView, layoutManager: LinearLayoutManager) {
         recyclerView.addItemDecoration(DividerItemDecoration(this, layoutManager.orientation))
