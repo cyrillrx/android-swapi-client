@@ -19,11 +19,13 @@ import com.cyrillrx.utils.prettyPrint
 class ItemConverter : Converter {
 
     override fun toHeader(input: Any?): Header = when (input) {
+        is Header -> input
         is String -> Header(input)
         else -> Header("???")
     }
 
     override fun toItem(input: Any?): Item = when (input) {
+        is Item -> input
         is RootItem -> bindRootItem(input)
         is Film -> bindFilm(input)
         is Person -> bindPerson(input)
