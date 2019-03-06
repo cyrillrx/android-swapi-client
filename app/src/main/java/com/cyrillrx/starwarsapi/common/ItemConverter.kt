@@ -5,12 +5,16 @@ import android.view.View
 import com.cyrillrx.starwarsapi.IntentKey
 import com.cyrillrx.starwarsapi.RootItem
 import com.cyrillrx.starwarsapi.film.FilmActivity
+import com.cyrillrx.starwarsapi.people.PersonActivity
 import com.cyrillrx.starwarsapi.planet.PlanetActivity
+import com.cyrillrx.starwarsapi.species.SpeciesActivity
+import com.cyrillrx.starwarsapi.starship.StarshipActivity
+import com.cyrillrx.starwarsapi.vehicles.VehicleActivity
 import com.cyrillrx.swapi.model.*
 import com.cyrillrx.templates.model.Converter
 import com.cyrillrx.templates.model.Header
 import com.cyrillrx.templates.model.Item
-import com.cyrillrx.utils.prettyPrint
+import com.cyrillrx.utils.serialize
 
 /**
  * @author Cyril Leroux
@@ -48,7 +52,7 @@ class ItemConverter : Converter {
 
     private fun bindPerson(person: Person): Item =
             Item(person.name, person.homeworld) { v ->
-                startActivity(person, v, FilmActivity::class.java)
+                startActivity(person, v, PersonActivity::class.java)
             }
 
     private fun bindPlanet(planet: Planet): Item =
@@ -58,23 +62,23 @@ class ItemConverter : Converter {
 
     private fun bindSpecies(species: Species): Item =
             Item(species.name, species.homeworld) { v ->
-                startActivity(species, v, FilmActivity::class.java)
+                startActivity(species, v, SpeciesActivity::class.java)
             }
 
     private fun bindStarship(starship: Starship): Item =
             Item(starship.name, starship.model) { v ->
-                startActivity(starship, v, FilmActivity::class.java)
+                startActivity(starship, v, StarshipActivity::class.java)
             }
 
     private fun bindVehicle(vehicle: Vehicle): Item =
             Item(vehicle.name, vehicle.model) { v ->
-                startActivity(vehicle, v, FilmActivity::class.java)
+                startActivity(vehicle, v, VehicleActivity::class.java)
             }
 
     private fun startActivity(entity: Entity, view: View, clazz: Class<*>?) {
         view.context?.let { context ->
             val intent = Intent(context, clazz)
-            intent.putExtra(IntentKey.ENTITY, entity.prettyPrint())
+            intent.putExtra(IntentKey.ENTITY, entity.serialize())
             context.startActivity(intent)
         }
     }
