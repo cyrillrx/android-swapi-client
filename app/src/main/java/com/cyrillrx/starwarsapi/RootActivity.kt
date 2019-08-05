@@ -24,9 +24,12 @@ import retrofit2.Response
  */
 class RootActivity : ListActivity() {
 
-    override val header: String? by lazy { title?.toString() }
-
     override val adapter: BaseAdapter = BaseAdapter(ItemConverter())
+
+    override fun setupRecycler(recyclerView: RecyclerView) {
+        super.setupRecycler(recyclerView)
+        adapter.add(title)
+    }
 
     override fun addItemDecoration(recyclerView: RecyclerView, layoutManager: LinearLayoutManager) {
         recyclerView.addItemDecoration(DividerItemDecoration(this, layoutManager.orientation))

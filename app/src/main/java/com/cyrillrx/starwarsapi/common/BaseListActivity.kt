@@ -1,5 +1,6 @@
 package com.cyrillrx.starwarsapi.common
 
+import androidx.recyclerview.widget.RecyclerView
 import com.cyrillrx.logger.Logger
 import com.cyrillrx.swapi.model.ResultList
 import com.cyrillrx.templates.BaseAdapter
@@ -13,8 +14,6 @@ import retrofit2.Response
  *         Created on 06/04/2018.
  */
 abstract class BaseListActivity<T : Any> : ListActivity() {
-
-    override val header: String? by lazy { title?.toString() }
 
     override val adapter: BaseAdapter = BaseAdapter(ItemConverter())
 
@@ -36,6 +35,11 @@ abstract class BaseListActivity<T : Any> : ListActivity() {
         override fun onFailure(call: Call<ResultList<T>>?, t: Throwable?) {
             Logger.error(TAG, call?.request()?.url()?.toString() + " - ${t?.message}", t)
         }
+    }
+
+    override fun setupRecycler(recyclerView: RecyclerView) {
+        super.setupRecycler(recyclerView)
+        adapter.add(title)
     }
 
     override fun sendRequest() {
