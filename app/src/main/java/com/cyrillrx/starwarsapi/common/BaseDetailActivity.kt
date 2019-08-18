@@ -45,8 +45,13 @@ abstract class BaseDetailActivity<T : Any> : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        entity = intent.getStringExtra(IntentKey.ENTITY).deserialize()
+        val data: Entity? = intent.getStringExtra(IntentKey.ENTITY)?.deserialize()
+        if (data == null) {
+            Logger.error(TAG, "Missing intent param ${IntentKey.ENTITY}")
+            return
+        }
 
+        entity = data
         entity.url?.let { url -> sendRequest(url) }
     }
 
