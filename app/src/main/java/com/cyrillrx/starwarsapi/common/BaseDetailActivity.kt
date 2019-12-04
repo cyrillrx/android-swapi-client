@@ -1,6 +1,7 @@
 package com.cyrillrx.starwarsapi.common
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.cyrillrx.logger.Logger
 import com.cyrillrx.starwarsapi.IntentKey
@@ -8,7 +9,8 @@ import com.cyrillrx.starwarsapi.R
 import com.cyrillrx.swapi.model.Entity
 import com.cyrillrx.utils.deserialize
 import com.cyrillrx.utils.prettyPrint
-import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.activity_detail.loader
+import kotlinx.android.synthetic.main.activity_detail.tvContent
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,10 +36,13 @@ abstract class BaseDetailActivity<T : Any> : AppCompatActivity() {
             } else {
                 Logger.error(TAG, call?.request()?.url()?.toString())
             }
+
+            stopLoading()
         }
 
         override fun onFailure(call: Call<T>?, t: Throwable?) {
             Logger.error(TAG, call?.request()?.url()?.toString() + " - ${t?.message}", t)
+            stopLoading()
         }
     }
 
@@ -55,13 +60,22 @@ abstract class BaseDetailActivity<T : Any> : AppCompatActivity() {
         entity.url?.let { url -> sendRequest(url) }
     }
 
-    private fun sendRequest(url: String) {
-        getApiCall(url).enqueue(callback)
-    }
-
     protected abstract fun getApiCall(url: String): Call<T>
 
     protected abstract fun bind(body: T)
+
+    protected open fun startLoading() {
+        loader.visibility = View.VISIBLE
+    }
+
+    protected open fun stopLoading() {
+        loader.visibility = View.GONE
+    }
+
+    private fun sendRequest(url: String) {
+        startLoading()
+        getApiCall(url).enqueue(callback)
+    }
 
     companion object {
         private val TAG = BaseDetailActivity::class.java.simpleName

@@ -1,6 +1,5 @@
 package com.cyrillrx.starwarsapi.common
 
-import androidx.recyclerview.widget.RecyclerView
 import com.cyrillrx.logger.Logger
 import com.cyrillrx.swapi.model.ResultList
 import com.cyrillrx.templates.BaseAdapter
@@ -20,6 +19,7 @@ abstract class BaseListActivity<T : Any> : ListActivity() {
     private val callback = object : Callback<ResultList<T>> {
 
         override fun onResponse(call: Call<ResultList<T>>?, response: Response<ResultList<T>>?) {
+
             if (response?.isSuccessful == true) {
                 response.body()?.let { body ->
                     adapter.addAll(body.results)
@@ -30,19 +30,19 @@ abstract class BaseListActivity<T : Any> : ListActivity() {
             } else {
                 Logger.error(TAG, call?.request()?.url()?.toString())
             }
+
+            stopLoading()
         }
 
         override fun onFailure(call: Call<ResultList<T>>?, t: Throwable?) {
             Logger.error(TAG, call?.request()?.url()?.toString() + " - ${t?.message}", t)
+            stopLoading()
         }
     }
 
-    override fun setupRecycler(recyclerView: RecyclerView) {
-        super.setupRecycler(recyclerView)
-        adapter.add(title)
-    }
-
     override fun sendRequest() {
+        startLoading()
+        adapter.add(title)
         getApiCall().enqueue(callback)
     }
 

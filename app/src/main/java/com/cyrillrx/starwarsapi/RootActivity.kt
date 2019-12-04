@@ -26,9 +26,25 @@ class RootActivity : ListActivity() {
 
     override val adapter: BaseAdapter = BaseAdapter(ItemConverter())
 
-    override fun setupRecycler(recyclerView: RecyclerView) {
-        super.setupRecycler(recyclerView)
-        adapter.add(title)
+    private val callback = object : Callback<Root> {
+
+        override fun onResponse(call: Call<Root>?, response: Response<Root>?) {
+
+            if (response?.isSuccessful == true) {
+                response.body()?.let { body ->
+                    adapter.addAll(getRootItems(body))
+                }
+            } else {
+                Logger.error(TAG, call?.request()?.url()?.toString())
+            }
+
+            stopLoading()
+        }
+
+        override fun onFailure(call: Call<Root>?, t: Throwable?) {
+            Logger.error(TAG, call?.request()?.url()?.toString() + " - ${t?.message}", t)
+            stopLoading()
+        }
     }
 
     override fun addItemDecoration(recyclerView: RecyclerView, layoutManager: LinearLayoutManager) {
@@ -36,24 +52,9 @@ class RootActivity : ListActivity() {
     }
 
     override fun sendRequest() {
-        SwApp.swApi
-                .getRoot()
-                .enqueue(object : Callback<Root> {
-
-                    override fun onResponse(call: Call<Root>?, response: Response<Root>?) {
-                        if (response?.isSuccessful == true) {
-                            response.body()?.let { body ->
-                                adapter.addAll(getRootItems(body))
-                            }
-                        } else {
-                            Logger.error(TAG, call?.request()?.url()?.toString())
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Root>?, t: Throwable?) {
-                        Logger.error(TAG, call?.request()?.url()?.toString() + " - ${t?.message}", t)
-                    }
-                })
+        startLoading()
+        adapter.add(title)
+        SwApp.swApi.getRoot().enqueue(callback)
     }
 
     private fun getRootItems(root: Root?): List<RootItem> {
@@ -69,15 +70,15 @@ class RootActivity : ListActivity() {
     }
 
     private fun getClassForKey(key: String) =
-            when (key) {
-                "films" -> FilmListActivity::class.java
-                "people" -> PersonListActivity::class.java
-                "planets" -> PlanetListActivity::class.java
-                "species" -> SpeciesListActivity::class.java
-                "starships" -> StarshipListActivity::class.java
-                "vehicles" -> VehicleListActivity::class.java
-                else -> null
-            }
+        when (key) {
+            "films" -> FilmListActivity::class.java
+            "people" -> PersonListActivity::class.java
+            "planets" -> PlanetListActivity::class.java
+            "species" -> SpeciesListActivity::class.java
+            "starships" -> StarshipListActivity::class.java
+            "vehicles" -> VehicleListActivity::class.java
+            else -> null
+        }
 
     companion object {
         private val TAG = RootActivity::class.java.simpleName
