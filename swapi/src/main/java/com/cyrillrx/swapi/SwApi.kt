@@ -2,6 +2,7 @@ package com.cyrillrx.swapi
 
 import com.cyrillrx.swapi.model.*
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Url
 
@@ -12,7 +13,7 @@ import retrofit2.http.Url
 interface SwApi {
 
     @GET("/api/")
-    fun getRoot(): Call<Root>
+    suspend fun getRoot(): Response<Root>
 
     @GET
     fun getFilms(@Url url: String): Call<ResultList<Film>>

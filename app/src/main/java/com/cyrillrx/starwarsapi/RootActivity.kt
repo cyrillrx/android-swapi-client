@@ -14,9 +14,9 @@ import com.cyrillrx.starwarsapi.vehicles.VehicleListActivity
 import com.cyrillrx.swapi.model.Root
 import com.cyrillrx.templates.BaseAdapter
 import com.cyrillrx.templates.ListActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * @author Cyril Leroux
@@ -26,35 +26,35 @@ class RootActivity : ListActivity() {
 
     override val adapter: BaseAdapter = BaseAdapter(ItemConverter())
 
-    private val callback = object : Callback<Root> {
-
-        override fun onResponse(call: Call<Root>?, response: Response<Root>?) {
-
-            if (response?.isSuccessful == true) {
-                response.body()?.let { body ->
-                    adapter.addAll(getRootItems(body))
-                }
-            } else {
-                Logger.error(TAG, call?.request()?.url()?.toString())
-            }
-
-            stopLoading()
-        }
-
-        override fun onFailure(call: Call<Root>?, t: Throwable?) {
-            Logger.error(TAG, call?.request()?.url()?.toString() + " - ${t?.message}", t)
-            stopLoading()
-        }
-    }
+    private val uiScope = CoroutineScope(Dispatchers.Main)
 
     override fun addItemDecoration(recyclerView: RecyclerView, layoutManager: LinearLayoutManager) {
         recyclerView.addItemDecoration(DividerItemDecoration(this, layoutManager.orientation))
     }
 
     override fun sendRequest() {
-        startLoading()
         adapter.add(title)
-        SwApp.swApi.getRoot().enqueue(callback)
+
+        uiScope.launch {
+            startLoading()
+
+            try {
+                val response = SwApp.swApi.getRoot()
+                if (response.isSuccessful) {
+                    response.body()?.let { body ->
+                        adapter.addAll(getRootItems(body))
+                    }
+                } else {
+                    Logger.error(TAG, "sendRequest() - Http error ${response.code()}")
+                }
+
+            } catch (e: Exception) {
+                Logger.error(TAG, "sendRequest() - Failure", e)
+
+            } finally {
+                stopLoading()
+            }
+        }
     }
 
     private fun getRootItems(root: Root?): List<RootItem> {
