@@ -1,5 +1,6 @@
 package com.cyrillrx.starwarsapi
 
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +15,9 @@ import com.cyrillrx.starwarsapi.vehicles.VehicleListActivity
 import com.cyrillrx.swapi.model.Root
 import com.cyrillrx.templates.BaseAdapter
 import com.cyrillrx.templates.ListActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * @author Cyril Leroux
@@ -26,61 +27,57 @@ class RootActivity : ListActivity() {
 
     override val adapter: BaseAdapter = BaseAdapter(ItemConverter())
 
-    private val callback = object : Callback<Root> {
-
-        override fun onResponse(call: Call<Root>?, response: Response<Root>?) {
-
-            if (response?.isSuccessful == true) {
-                response.body()?.let { body ->
-                    adapter.addAll(getRootItems(body))
-                }
-            } else {
-                Logger.error(TAG, call?.request()?.url()?.toString())
-            }
-
-            stopLoading()
-        }
-
-        override fun onFailure(call: Call<Root>?, t: Throwable?) {
-            Logger.error(TAG, call?.request()?.url()?.toString() + " - ${t?.message}", t)
-            stopLoading()
-        }
-    }
-
     override fun addItemDecoration(recyclerView: RecyclerView, layoutManager: LinearLayoutManager) {
         recyclerView.addItemDecoration(DividerItemDecoration(this, layoutManager.orientation))
     }
 
     override fun sendRequest() {
-        startLoading()
-        adapter.add(title)
-        SwApp.swApi.getRoot().enqueue(callback)
-    }
 
-    private fun getRootItems(root: Root?): List<RootItem> {
+        lifecycleScope.launch {
+            adapter.add(title)
 
-        if (root == null) return emptyList()
+            startLoading()
 
-        val rootItems: ArrayList<RootItem> = ArrayList()
-        for ((key, value) in root) {
-            rootItems.add(RootItem(key, value, getClassForKey(key)))
+            try {
+                val items = withContext(Dispatchers.IO) {
+                    val root = SwApp.swApi.getRoot()
+                    getRootItems(root)
+                }
+                adapter.addAll(items)
+
+            } catch (e: Exception) {
+                Logger.error(TAG, "sendRequest() - swApi.getRoot()", e)
+
+            } finally {
+                stopLoading()
+            }
         }
-
-        return rootItems
     }
-
-    private fun getClassForKey(key: String) =
-        when (key) {
-            "films" -> FilmListActivity::class.java
-            "people" -> PersonListActivity::class.java
-            "planets" -> PlanetListActivity::class.java
-            "species" -> SpeciesListActivity::class.java
-            "starships" -> StarshipListActivity::class.java
-            "vehicles" -> VehicleListActivity::class.java
-            else -> null
-        }
 
     companion object {
         private val TAG = RootActivity::class.java.simpleName
+
+        private fun getRootItems(root: Root?): List<RootItem> {
+
+            if (root == null) return emptyList()
+
+            val rootItems: ArrayList<RootItem> = ArrayList()
+            for ((key, value) in root) {
+                rootItems.add(RootItem(key, value, getClassForKey(key)))
+            }
+
+            return rootItems
+        }
+
+        private fun getClassForKey(key: String) =
+            when (key) {
+                "films" -> FilmListActivity::class.java
+                "people" -> PersonListActivity::class.java
+                "planets" -> PlanetListActivity::class.java
+                "species" -> SpeciesListActivity::class.java
+                "starships" -> StarshipListActivity::class.java
+                "vehicles" -> VehicleListActivity::class.java
+                else -> null
+            }
     }
 }

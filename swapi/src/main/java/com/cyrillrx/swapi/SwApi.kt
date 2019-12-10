@@ -1,6 +1,13 @@
 package com.cyrillrx.swapi
 
-import com.cyrillrx.swapi.model.*
+import com.cyrillrx.swapi.model.Film
+import com.cyrillrx.swapi.model.Person
+import com.cyrillrx.swapi.model.Planet
+import com.cyrillrx.swapi.model.ResultList
+import com.cyrillrx.swapi.model.Root
+import com.cyrillrx.swapi.model.Species
+import com.cyrillrx.swapi.model.Starship
+import com.cyrillrx.swapi.model.Vehicle
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Url
@@ -12,7 +19,7 @@ import retrofit2.http.Url
 interface SwApi {
 
     @GET("/api/")
-    fun getRoot(): Call<Root>
+    suspend fun getRoot(): Root?
 
     @GET
     fun getFilms(@Url url: String): Call<ResultList<Film>>
