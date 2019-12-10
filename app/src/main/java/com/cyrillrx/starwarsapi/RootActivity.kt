@@ -1,12 +1,11 @@
 package com.cyrillrx.starwarsapi
 
-import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cyrillrx.logger.Logger
 import com.cyrillrx.starwarsapi.common.ItemConverter
-import com.cyrillrx.starwarsapi.coroutine.UIScope
 import com.cyrillrx.starwarsapi.film.FilmListActivity
 import com.cyrillrx.starwarsapi.people.PersonListActivity
 import com.cyrillrx.starwarsapi.planet.PlanetListActivity
@@ -28,20 +27,13 @@ class RootActivity : ListActivity() {
 
     override val adapter: BaseAdapter = BaseAdapter(ItemConverter())
 
-    private val uiScope = UIScope()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycle.addObserver(uiScope)
-    }
-
     override fun addItemDecoration(recyclerView: RecyclerView, layoutManager: LinearLayoutManager) {
         recyclerView.addItemDecoration(DividerItemDecoration(this, layoutManager.orientation))
     }
 
     override fun sendRequest() {
 
-        uiScope.launch {
+        lifecycleScope.launch {
             adapter.add(title)
 
             startLoading()
